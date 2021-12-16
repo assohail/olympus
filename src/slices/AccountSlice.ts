@@ -1,10 +1,10 @@
 import { BigNumber, BigNumberish, ethers } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import { abi as fuseProxy } from "../abi/FuseProxy.json";
-import { abi as wsOHM } from "../abi/wsOHM.json";
-import { abi as fiatDAO } from "../abi/FiatDAOContract.json";
+// import { abi as sOHMv2 } from "../abi/sOhmv2.json";
+// import { abi as fuseProxy } from "../abi/FuseProxy.json";
+// import { abi as wsOHM } from "../abi/wsOHM.json";
+// import { abi as fiatDAO } from "../abi/FiatDAOContract.json";
 
 import { setAll, handleContractError } from "../helpers";
 
@@ -12,8 +12,8 @@ import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit"
 import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
 import { FiatDAOContract, FuseProxy, IERC20, IERC20__factory, SOhmv2, SOhmv2__factory, WsOHM } from "src/typechain";
-import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
-import { OlympusStakingv2__factory } from "src/typechain/factories/OlympusStakingv2__factory";
+// import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
+// import { OlympusStakingv2__factory } from "src/typechain/factories/OlympusStakingv2__factory";
 
 interface IUserBalances {
   balances: {
@@ -41,20 +41,20 @@ export const getBalances = createAsyncThunk(
     let poolBalance = BigNumber.from("0");
     let fsohmBalance = BigNumber.from(0);
     let fiatDaowsohmBalance = BigNumber.from("0");
-    try {
-      const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
-      gOhmBalance = await gOhmContract.balanceOf(address);
-    } catch (e) {
-      handleContractError(e);
-    }
-    try {
-      const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
-      wsohmBalance = await wsohmContract.balanceOf(address);
-      // NOTE (appleseed): wsohmAsSohm is wsOHM given as a quantity of sOHM
-      wsohmAsSohm = await wsohmContract.wOHMTosOHM(wsohmBalance);
-    } catch (e) {
-      handleContractError(e);
-    }
+    // try {
+    //   const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
+    //   gOhmBalance = await gOhmContract.balanceOf(address);
+    // } catch (e) {
+    //   handleContractError(e);
+    // }
+    // try {
+    //   const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
+    //   wsohmBalance = await wsohmContract.balanceOf(address);
+    //   // NOTE (appleseed): wsohmAsSohm is wsOHM given as a quantity of sOHM
+    //   wsohmAsSohm = await wsohmContract.wOHMTosOHM(wsohmBalance);
+    // } catch (e) {
+    //   handleContractError(e);
+    // }
     try {
       const ohmContract = new ethers.Contract(
         addresses[networkID].OHM_ADDRESS as string,
@@ -98,34 +98,35 @@ export const getBalances = createAsyncThunk(
     } catch (e) {
       handleContractError(e);
     }
-    try {
-      for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM", "FUSE_36_SOHM"]) {
-        if (addresses[networkID][fuseAddressKey]) {
-          const fsohmContract = new ethers.Contract(
-            addresses[networkID][fuseAddressKey] as string,
-            fuseProxy,
-            provider.getSigner(),
-          ) as FuseProxy;
-          // fsohmContract.signer;
-          const balanceOfUnderlying = await fsohmContract.callStatic.balanceOfUnderlying(address);
-          fsohmBalance = balanceOfUnderlying.add(fsohmBalance);
-        }
-      }
-    } catch (e) {
-      handleContractError(e);
-    }
-    try {
-      if (addresses[networkID].FIATDAO_WSOHM_ADDRESS) {
-        const fiatDaoContract = new ethers.Contract(
-          addresses[networkID].FIATDAO_WSOHM_ADDRESS as string,
-          fiatDAO,
-          provider,
-        ) as FiatDAOContract;
-        fiatDaowsohmBalance = await fiatDaoContract.balanceOf(address, addresses[networkID].WSOHM_ADDRESS as string);
-      }
-    } catch (e) {
-      handleContractError(e);
-    }
+    // try {
+    //   for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM", "FUSE_36_SOHM"]) {
+    //     if (addresses[networkID][fuseAddressKey]) {
+    //       const fsohmContract = new ethers.Contract(
+    //         addresses[networkID][fuseAddressKey] as string,
+    //         fuseProxy,
+    //         provider.getSigner(),
+    //       ) as FuseProxy;
+    //       // fsohmContract.signer;
+    //       const balanceOfUnderlying = await fsohmContract.callStatic.balanceOfUnderlying(address);
+    //       fsohmBalance = balanceOfUnderlying.add(fsohmBalance);
+    //     }
+    //   }
+    // } catch (e) {
+    //   handleContractError(e);
+    // }
+    
+    // try {
+    //   if (addresses[networkID].FIATDAO_WSOHM_ADDRESS) {
+    //     const fiatDaoContract = new ethers.Contract(
+    //       addresses[networkID].FIATDAO_WSOHM_ADDRESS as string,
+    //       fiatDAO,
+    //       provider,
+    //     ) as FiatDAOContract;
+    //     fiatDaowsohmBalance = await fiatDaoContract.balanceOf(address, addresses[networkID].WSOHM_ADDRESS as string);
+    //   }
+    // } catch (e) {
+    //   handleContractError(e);
+    // }
 
     return {
       balances: {
@@ -225,8 +226,8 @@ export const loadAccountDetails = createAsyncThunk(
     let poolAllowance = BigNumber.from("0");
     let gOhmBalance = BigNumber.from("0");
     try {
-      const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
-      gOhmUnwrapAllowance = await gOhmContract.allowance(address, addresses[networkID].STAKING_V2);
+      // const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
+      // gOhmUnwrapAllowance = await gOhmContract.allowance(address, addresses[networkID].STAKING_V2);
 
       const ohmContract = new ethers.Contract(
         addresses[networkID].OHM_ADDRESS as string,
@@ -235,13 +236,13 @@ export const loadAccountDetails = createAsyncThunk(
       ) as IERC20;
       stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
 
-      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, sOHMv2, provider) as SOhmv2;
-      unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-      poolAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
-      wrapAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_V2);
+      // const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, sOHMv2, provider) as SOhmv2;
+      // unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+      // poolAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+      // wrapAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_V2);
 
-      const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
-      unwrapAllowance = await wsohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
+      // const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
+      // unwrapAllowance = await wsohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
 
       const sohmV2Contract = IERC20__factory.connect(addresses[networkID].SOHM_V2, provider);
       unstakeAllowanceV2 = await sohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);

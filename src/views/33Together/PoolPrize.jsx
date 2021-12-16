@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { t, Trans } from "@lingui/macro";
 import { useWeb3Context } from "../../hooks";
-import { awardProcess, getRNGStatus, getPoolValues } from "../../slices/PoolThunk";
+// =============================================commented
+// import { awardProcess, getRNGStatus, getPoolValues } from "../../slices/PoolThunk";
 
 import { Paper, Box, Typography, Button } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";

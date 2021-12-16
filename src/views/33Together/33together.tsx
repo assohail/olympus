@@ -16,7 +16,9 @@ import { useWeb3Context, useAppSelector } from "src/hooks";
 import { apolloExt } from "src/lib/apolloClient";
 import { poolDataQuery, yourAwardsQuery } from "./poolData";
 import { calculateOdds, trimOdds } from "src/helpers/33Together";
-import { getPoolValues, getRNGStatus } from "src/slices/PoolThunk";
+import { getPoolValues, 
+  // getRNGStatus 
+} from "src/slices/PoolThunk";
 
 function a11yProps(index: number) {
   return {

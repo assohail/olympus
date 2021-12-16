@@ -198,6 +198,7 @@ interface INetwork {
 
 // =======================================================commented
 // export const USER_SELECTABLE_NETWORKS = [1, 42161, 43114];
+   export const USER_SELECTABLE_NETWORKS = []
 
 // Set this to the chain number of the most recently added network in order to enable the 'Now supporting X network'
 // message in the UI. Set to -1 if we don't want to display the message at the current time.

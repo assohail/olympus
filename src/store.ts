@@ -20,7 +20,8 @@ const store = configureStore({
     bonding: bondingReducer,
     app: appReducer,
     pendingTransactions: pendingTransactionsReducer,
-    poolData: poolDataReducer,
+    // =========================================commented
+    // poolData: poolDataReducer,
     lusdData: lusdDataReducer,
     messages: messagesReducer,
     zap: zapReducer,

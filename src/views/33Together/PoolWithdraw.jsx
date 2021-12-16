@@ -20,7 +20,8 @@ import { useWeb3Context } from "../../hooks";
 import { getTokenImage } from "src/helpers/index";
 import { trim } from "src/helpers";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
-import { getEarlyExitFee, poolWithdraw } from "../../slices/PoolThunk";
+// ================================================= commented
+// import { getEarlyExitFee, poolWithdraw } from "../../slices/PoolThunk";
 import { calculateOdds } from "../../helpers/33Together";
 import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 import { error } from "../../slices/MessagesSlice";
